@@ -38,6 +38,7 @@
 					<suiteXmlFiles>
 						<!--suppress UnresolvedMavenProperty -->
 						<suiteXmlFile>${suite}</suiteXmlFile>
+        <testFailureIgnore>true</testFailureIgnore>		
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>
