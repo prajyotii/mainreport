@@ -1,39 +1,38 @@
 pipeline {
-
     agent any
     
-    stages {
-
-        stage('pull-code') {
-
+ stages {
+        stage('Checkout') {
             steps {
-              git credentialsId: '123', url: 'https://github.com/prajyotii/mainreport.git'
-
-            }
-
+             git credentialsId: '123', url: 'https://github.com/prajyotii/mainreport.git'
+                }   
         }
-
-        stage('build') {
-          
-             steps {
-        
-                sh "mvn clean package"
-            
-               }
-          }
-         stage('testNg') {
-          
-             steps {
-        
-                 testNG()
-            
-               }
-         }
-        stage('email')
-        {
-            steps { 
- emailext (to: 'prajyotifineshift@gmail.com', replyTo: 'prajyotifineshift@gmail.com', subject: "Email Report from - '${env.JOB_NAME}' ", body: readFile("target/surefire-reports/emailable-report.html"), mimeType: 'text/html');
-            }
+         stage('Build') {
+            steps {
+             sh "mvn clean package"
+            }   
+        }
+        stage('htmlreportonmail') {
+            steps {
+                
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/execution/node/3/ws/target/surefire-reports/', reportFiles: 'emailable-report.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                //publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'coverage', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                //http://localhost:8080/job/email/5/execution/node/3/ws/target/surefire-reports/emailable-report.html
+            }   
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
