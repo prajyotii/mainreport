@@ -21,18 +21,13 @@ pipeline {
             
                }
           }
-
-        stage('Test') {
-
-            steps('SonarQube Analysis') {
-                
-                withSonarQubeEnv('sonarserver') {
-
-                    sh "mvn sonar:sonar"
-
-                }
-
-            }
-        }
+         stage('testNg') {
+          
+             steps {
+        
+                 testNG()
+            
+               }
+         }
     }
 }
